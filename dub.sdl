@@ -1,0 +1,6 @@
+name "twitter-d"
+description "A twitter api binding for #dlang based on vibe.d"
+authors "Stephan Dilly"
+copyright "Copyright © 2018, Stephan Dilly"
+license "MIT"
+dependency "vibe-d" version="~>0.8.2"

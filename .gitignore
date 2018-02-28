@@ -1,0 +1,10 @@
+.dub
+docs.json
+__dummy.html
+docs/
+newsapi-d-test-*
+libtwitter-d.a
+*.exe
+*.o
+*.obj
+*.lst
