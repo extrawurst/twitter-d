@@ -2,7 +2,7 @@
 docs.json
 __dummy.html
 docs/
-newsapi-d-test-*
+twitter-d-test-*
 libtwitter-d.a
 *.exe
 *.o
