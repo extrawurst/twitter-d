@@ -84,7 +84,7 @@ struct TwitterUser
 }
 
 ///
-struct FollowersList
+template CursoredList()
 {
     ///
     string previous_cursor_str;
@@ -94,6 +94,12 @@ struct FollowersList
     long previous_cursor;
     ///
     long next_cursor;
+}
+
+///
+struct FollowersList
+{
+    mixin CursoredList;
     ///
     TwitterUser[] users;
 }
@@ -118,11 +124,30 @@ struct Status
     ///
     long retweet_count;
     ///
+    long favorite_count;
+    ///
     long id;
     ///
     bool retweeted;
     ///
     bool favorited;
+}
+
+///
+struct SearchResult
+{
+    ///
+    Status[] statuses;
+    ///
+    Json search_metadata;
+}
+
+///
+struct IdsList
+{
+    mixin CursoredList;
+    ///
+    ulong[] ids;
 }
 
 ///
@@ -132,9 +157,24 @@ interface TwitterAPI
     FollowersList followers(string screen_name, long cursor = -1,
             bool skip_status = true, bool include_user_entities = false);
 
+    /// see https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids
+    IdsList friendsIds(string screen_name, long cursor = -1);
+
+    /// see https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
+    Json appRateLimitStatus();
+
     ///
     Status status(string status);
 
     ///
     Status statusShow(long id);
+
+    /// see https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
+    SearchResult searchTweets(string q, string lang = null, int count = 15);
+
+    /// see https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create
+    TwitterUser friendshipsCreate(ulong user_id);
+
+    /// see https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy
+    TwitterUser friendshipsDestroy(ulong user_id);
 }

@@ -32,6 +32,28 @@ class Twitter : TwitterBase, TwitterAPI
     }
 
     ///
+    IdsList friendsIds(string screen_name, long cursor = -1)
+    {
+        static immutable METHOD_URL = "/1.1/friends/ids.json";
+
+        string[string] params;
+        params["screen_name"] = screen_name;
+        params["cursor"] = cursor.to!string;
+
+        return this.request!(IdsList)(METHOD_URL, HTTPMethod.GET, params);
+    }
+
+    ///
+    Json appRateLimitStatus()
+    {
+        static immutable METHOD_URL = "/1.1/application/rate_limit_status.json";
+
+        string[string] params;
+
+        return this.request!(Json)(METHOD_URL, HTTPMethod.GET, params);
+    }
+
+    ///
     Status status(string status)
     {
         static immutable METHOD_URL = "/1.1/statuses/update.json";
@@ -51,5 +73,41 @@ class Twitter : TwitterBase, TwitterAPI
         params["id"] = id.to!string;
 
         return this.request!(Status)(METHOD_URL, HTTPMethod.GET, params);
+    }
+
+    ///
+    SearchResult searchTweets(string q, string lang = null, int count = 15)
+    {
+        static immutable METHOD_URL = "/1.1/search/tweets.json";
+
+        string[string] params;
+        params["q"] = q;
+        params["count"] = count.to!string;
+        if (lang)
+            params["lang"] = lang;
+
+        return this.request!(SearchResult)(METHOD_URL, HTTPMethod.GET, params);
+    }
+
+    ///
+    TwitterUser friendshipsCreate(ulong user_id)
+    {
+        static immutable METHOD_URL = "/1.1/friendships/create.json";
+
+        string[string] params;
+        params["user_id"] = user_id.to!string;
+
+        return this.request!(TwitterUser)(METHOD_URL, HTTPMethod.POST, params);
+    }
+
+    ///
+    TwitterUser friendshipsDestroy(ulong user_id)
+    {
+        static immutable METHOD_URL = "/1.1/friendships/destroy.json";
+
+        string[string] params;
+        params["user_id"] = user_id.to!string;
+
+        return this.request!(TwitterUser)(METHOD_URL, HTTPMethod.POST, params);
     }
 }
